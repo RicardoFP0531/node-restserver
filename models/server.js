@@ -10,6 +10,8 @@ class Server {
         this.port = process.env.PORT;
         //end point de las rutas de los usuarios
         this.usuariosPath = '/api/usuarios';
+        //nueva RUTA del authentication SECCION 1O CURSO
+        this.authPath     = '/api/auth';
 
         //conectar a base de datos
         this.conectarDB();
@@ -46,7 +48,10 @@ class Server {
     //creando metodos para las rutas
     routes () {
 
-        this.app.use( this.usuariosPath, require('../routes/usuarios') )
+        this.app.use( this.usuariosPath, require('../routes/usuarios') );
+        
+        //NUEVA RUTA PARA LA AUTENTICACION SECCION 10 DEL CURSO
+        this.app.use(this.authPath, require('../routes/auth'));
 
     }
 

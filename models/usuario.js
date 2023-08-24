@@ -37,7 +37,9 @@ const UsuarioSchema = Schema({
 //METODOS PERSONALIZADOS TO JSON
 UsuarioSchema.methods.toJSON = function () {
 
-    const { __v, password, ...usuario } = this.toObject();
+    const { __v, password, _id, ...usuario } = this.toObject();
+    //tarea cambiar el _id de todos los modelos para que aparezca UID
+    usuario.uid = _id;
     return usuario;
 
 };
