@@ -8,10 +8,20 @@ class Server {
     constructor () {
         this.app = express();
         this.port = process.env.PORT;
-        //end point de las rutas de los usuarios
-        this.usuariosPath = '/api/usuarios';
-        //nueva RUTA del authentication SECCION 1O CURSO
-        this.authPath     = '/api/auth';
+        //SECCION 12 tip para las rutas 
+        this.paths = {
+            usuarios:   '/api/usuarios',
+            auth:       '/api/auth',
+            categorias: '/api/categorias',
+            productos:  '/api/productos',
+            buscar:     '/api/buscar'
+        }
+
+        //ANTIGUO CODIGO PARA LLAMAR LAS RUTAS EL CODIGO DE ARRIBA MEJORA ESA FUNCION
+        // //end point de las rutas de los usuarios
+        // this.usuariosPath = '/api/usuarios';
+        // //nueva RUTA del authentication SECCION 1O CURSO
+        // this.authPath     = '/api/auth';
 
         //conectar a base de datos
         this.conectarDB();
@@ -48,10 +58,20 @@ class Server {
     //creando metodos para las rutas
     routes () {
 
-        this.app.use( this.usuariosPath, require('../routes/usuarios') );
+        this.app.use( this.paths.usuarios,  require('../routes/usuarios') );
         
-        //NUEVA RUTA PARA LA AUTENTICACION SECCION 10 DEL CURSO
-        this.app.use(this.authPath, require('../routes/auth'));
+        //NUEVA RUTA SECCION 10 DEL CURSO AUTENTICACION DE USUARIOS
+        this.app.use(this.paths.auth,       require('../routes/auth'));
+        
+        //NUEVA RUTA SECCION 12 DEL CURSO CATEGORIAS
+        this.app.use(this.paths.categorias, require('../routes/categorias'));
+
+        //NUEVA RUTA SECCION 12 DEL CURSO PRODUCTOS
+        this.app.use(this.paths.productos,  require('../routes/productos'));
+
+        //NUEVA RUTA BUSCAR 
+        this.app.use(this.paths.buscar,     require('../routes/buscar'));
+        
 
     }
 
