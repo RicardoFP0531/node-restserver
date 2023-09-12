@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const { dbConnection } = require('../db/config');
+const fileUpload = require('express-fileupload');
 
 
 class Server {
@@ -14,7 +15,8 @@ class Server {
             auth:       '/api/auth',
             categorias: '/api/categorias',
             productos:  '/api/productos',
-            buscar:     '/api/buscar'
+            buscar:     '/api/buscar',
+            uploads:    '/api/uploads'
         }
 
         //ANTIGUO CODIGO PARA LLAMAR LAS RUTAS EL CODIGO DE ARRIBA MEJORA ESA FUNCION
@@ -53,6 +55,13 @@ class Server {
         //directorio publico
         this.app.use(express.static('public'));
 
+        //SECCION 13 MIDDLEWARE PARA LA CARGA DE ARCHIVOS EXPRESS-FILEUPLOAD
+        this.app.use(fileUpload({
+            useTempFiles : true,
+            tempFileDir : '/tmp/',
+            createParentPath: true
+        }));
+
     }
 
     //creando metodos para las rutas
@@ -71,6 +80,9 @@ class Server {
 
         //NUEVA RUTA BUSCAR 
         this.app.use(this.paths.buscar,     require('../routes/buscar'));
+
+        //NUEVA RUTA CARGAR ARCHIVOS  
+        this.app.use(this.paths.uploads,     require('../routes/uploads'));
         
 
     }
